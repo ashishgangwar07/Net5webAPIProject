@@ -12,6 +12,7 @@ namespace consoleApptoWebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddTransient<CustomMiddleware>();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -22,6 +23,7 @@ namespace consoleApptoWebAPI
                 await context.Response.WriteAsync("Hello from Use2 middleware \n");
             });
             app.Map("/ashish", customMessage);
+            app.UseMiddleware<CustomMiddleware>();
             app.Run(async context =>
             {
                 await context.Response.WriteAsync("Hello from Run1 middleware \n");
